@@ -10,8 +10,6 @@ Install Python 3.11 or newer. From the repository root:
 python run.py english
 ```
 
-On Windows, you can also double-click `start.bat` and choose **English**.
-
 The launcher installs Python dependencies and opens http://127.0.0.1:8000 after the app is ready. The first launch needs internet access to download dependencies and the embedding model. Keep the launcher open; press Ctrl+C to stop.
 
 The included index is ready to use. The browser interface does not require Ollama.

@@ -10,8 +10,6 @@ Install Python 3.11+ and [Ollama](https://ollama.com/download). From the reposit
 python run.py arabic
 ```
 
-On Windows, you can also double-click `start.bat` and choose **Arabic**.
-
 The launcher installs Python dependencies, starts Ollama if necessary, downloads `llama3.2:3b` if missing, and opens http://127.0.0.1:8001 after the app is ready. The first launch needs internet access for dependencies and models. Keep the launcher open; press Ctrl+C to stop.
 
 The included index is ready to use. Tesseract is needed only to repeat OCR, not to use the interface.

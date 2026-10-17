@@ -14,7 +14,7 @@ Both projects also support answer generation from the command line. The English 
 1. Install **Python 3.11 or newer** from [python.org](https://www.python.org/downloads/). On Windows, enable **Add Python to PATH** during installation.
 2. For Arabic answers, install [Ollama](https://ollama.com/download). The launcher starts it and downloads the answer model when needed. English document search works without Ollama.
 3. Download and extract this repository, or clone it with Git.
-4. On **Windows**, double-click **start.bat**, then choose Arabic, English, or both.
+4. Open a terminal in the repository folder, run `python run.py`, then choose Arabic, English, or both.
 
 The launcher creates a virtual environment, installs Python dependencies, prepares the Arabic answer model when needed, and opens the selected interfaces in your browser. No environment activation or index rebuilding is needed.
 

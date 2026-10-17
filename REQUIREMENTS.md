@@ -1,6 +1,6 @@
 # Dependencies and advanced commands
 
-For normal use, run `python run.py` or double-click `start.bat` on Windows.
+For normal use, run `python run.py` from the repository folder.
 The launcher handles the Python environment, dependencies, and Arabic model setup.
 The commands below are for manual setup and rebuilding project data.
 
