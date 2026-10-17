@@ -1,0 +1,50 @@
+[
+  {
+    "id": "TRAIN_Q001",
+    "question": "Netcool/Impact (all versions): How is the Exit() action function expected to work with User Defined Functions?\n\nNetcool/Impact (all versions)\n\nUsing the Exit() action function within a User Defined Function in a Policy will not exit the Policy process.",
+    "reference_answer": "This is because the Exit() parser function in IPL is designed to exit the immediate scope. To carry the action outside of the User Defined Function to the Policy level one would have to set a variable that is then tested immediately after the User Defined Function call",
+    "expected_source": "swg21675316.txt"
+  },
+  {
+    "id": "TRAIN_Q003",
+    "question": "How to configure SSL mutual authentication in IBM HTTP Server?\n\n\n\nWe are running IHS v7 and our application team has a specific webservice that they require SSL mutual authentication to be enabled for at the http server. Does anyone know how to set this up on IHS? Or any documentation?\n\nThanks\n",
+    "reference_answer": "The following steps help guide you through the proper set up of SSL within the IBM HTTP Server: \n\n 1. Confirm that the Global Security Kit (GSKit) is installed and meets the minimum requirements\n    \n    \n 2. Create a key database file and certificates needed to authenticate the Web server during an SSL handshake\n    \n    \n 3. Enable SSL directives within the IBM HTTP Server configuration file (httpd.conf)\n    \n    \n 4. Other considerations when enabling SSL directives within the IBM HTTP Server configuration file (httpd.conf)\n    \n    \n 5. Information that IBM WebSphere® Support needs to debug SSL configuration and certificate issues related to the IBM HTTP Server",
+    "expected_source": "swg21179559.txt"
+  },
+  {
+    "id": "TRAIN_Q006",
+    "question": "Is ITNM exposed to Apache CXF vulnerability (CVE-2017-3156)?\n\nIs ITNM versions are affected by Apache CXF vulnerability (CVE-2017-3156), If yes then what are all the version will be affected and where I can find the details?",
+    "reference_answer": "CVEID: CVE-2017-3156 [http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-3156]\nDESCRIPTION: Apache CXF could provide weaker than expected security, caused by the failure to use the OAuth2 Hawk and JOSE MAC Validation code. A remote attacker could exploit this vulnerability using timing attacks to obtain sensitive information.\nCVSS Base Score: 5.9\nCVSS Temporal Score: See https://exchange.xforce.ibmcloud.com/vulnerabilities/130249 [https://exchange.xforce.ibmcloud.com/vulnerabilities/130249] for the current score\nCVSS Environmental Score*: Undefined\nCVSS Vector: (CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N)",
+    "expected_source": "swg22008493.txt"
+  },
+  {
+    "id": "TRAIN_Q008",
+    "question": "Is the Requisite Pro (ReqPro) feature/plugin supported with a 64-bit RAD/RSA(4WS) 851+ installation\n\nIs the Requisite Pro (ReqPro) feature/plugin supported with a 64-bit install of RAD/RSA(4WS) 851? ",
+    "reference_answer": "the Rational RequisitePro integration features/plugins are not supported or provided. These are only available as 32-bit eclipse plugins.",
+    "expected_source": "swg21263677.txt"
+  },
+  {
+    "id": "TRAIN_Q010",
+    "question": "managesdk.sh -listEnabledProfileAll fails with error: Couldn't get file lock.\n\n\n\nI am installing WebGUI FP13 and it is failing with the symptoms described in below technote.\n\nhttps://www-01.ibm.com/support/docview.wss?uid=swg21993160\n\nAs described in above technote when I run managesdk.sh script it fails with below errors.\n\n./managesdk.sh -listEnabledProfileAll\n\nSep 26, 2018 10:14:12 AM java.util.prefs.FileSystemPreferences syncWorld\n\nWARNING: Couldn't flush user prefs: java.util.prefs.BackingStoreException: Couldn't get file lock.\n\nPlease let me know what could be the issue?",
+    "reference_answer": "The non-root ID that is being used to start WebSphere Application Server does not have a user_home directory. Therefore this non-root ID is unable to access the root user's \"/etc/.java/.systemPrefs\". This produces the aforementioned warning messages every 30 seconds in the profile_root/logs/server_name/systemout.log.\n\nThe root ID used to start Websphere Application Server can not find the Java system pref file.",
+    "expected_source": "swg21515420.txt"
+  },
+  {
+    "id": "TRAIN_Q011",
+    "question": "Load SPSS 25 on a new computer\n\nI purchased SPSS 25 with a 12 month license on Jan 27. I loaded it and used it on my MacBook Pro. I now have a new MacBookPro. I was able to download the program but get a message that says I don't have a license. I do have the activation code. Can you please help me use this product on my new computer? Thanks! ",
+    "reference_answer": "Type (copy/paste) the following command: \n    \n    sudo chown -R root:admin 20\n    \n 2. Press Enter/Return. \n 3. Close Terminal. \n 4. Launch the License Authorization Wizard. \n 5. The warning message should no longer appear. \n 6. License your IBM SPSS Statistics product.",
+    "expected_source": "swg21966637.txt"
+  },
+  {
+    "id": "TRAIN_Q012",
+    "question": "Are there any instructions for ulimit settings for WebSphere running on Linux?\n\nAre there any instructions for ulimit settings for WebSphere running on Linux? ",
+    "reference_answer": "WebSphere Application Server Support recommends setting the ulimit -u or nproc to a value of 131072 when running on Linux to safely account for all the forked threads within processes that could be created.",
+    "expected_source": "swg21648497.txt"
+  },
+  {
+    "id": "TRAIN_Q014",
+    "question": "NMA agent installation failure\n\n\n\nHello, I'm trying to install the NMA agent from ITM for Virtual Environment package on a Linux x86-64. The preferred method would be remote install, but I'm not even able to perform tamcd addbundles as it complains about missing prerequisites.\n\nIf I try to install the agent locally on the Linux machine, the list of available agents does not include NMA agent at all.\n\nIs there a solution to this problem?",
+    "reference_answer": "The issues should be corrected at Installer level, APAR IV84919 has been opened to fix them. \n\nAnyway, since the correction involves the installation component, it will not be available until next release, when the Installation package will be built again.",
+    "expected_source": "swg21983839.txt"
+  }
+]

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arabic RAG | اسأل مستنداتك</title>
+  <style>
+    :root{font-family:Tahoma,"Segoe UI",sans-serif;color:#213b36;background:#f6f8f6;line-height:1.8}
+    *{box-sizing:border-box}body{margin:0}header{border-bottom:1px solid #e0e7e2;background:#fff;padding:18px 6%}
+    .brand{font-size:19px;font-weight:700;direction:ltr;display:inline-block}.mark{color:#247966;margin-right:8px}
+    main{max-width:800px;margin:64px auto;padding:0 22px}h1{font-size:32px;line-height:1.5;margin:0 0 10px}p{margin:0;color:#64766f}
+    .intro{margin-bottom:30px}.card{background:#fff;border:1px solid #dee7e0;border-radius:16px;padding:26px;margin-bottom:22px}
+    label{display:block;font-weight:700;margin-bottom:10px}textarea{display:block;width:100%;resize:vertical;min-height:130px;border:1px solid #cad7d0;border-radius:10px;padding:15px;font:inherit;color:inherit;background:#fcfdfc}
+    textarea:focus{outline:2px solid #247966;outline-offset:2px}button{font:inherit;cursor:pointer;border:0;border-radius:9px;background:#247966;color:#fff;padding:10px 27px;font-weight:700}button:hover{background:#1b604f}button:disabled{opacity:.6;cursor:wait}
+    .actions{display:flex;align-items:center;gap:16px;margin-top:16px}.hint{font-size:12px;color:#74857c}h2{font-size:19px;margin:0 0 13px}.answer{white-space:pre-wrap;overflow-wrap:anywhere}
+    details{border-top:1px solid #e5ebe7;padding:13px 0}summary{cursor:pointer;font-size:14px;font-weight:700}details p{white-space:pre-wrap;margin-top:12px;font-size:14px;color:#425b51;overflow-wrap:anywhere}.source-name{unicode-bidi:isolate;direction:ltr;display:inline-block;overflow-wrap:anywhere;max-width:100%}
+    #status{color:#247966;font-size:14px}#error{color:#a33535;background:#fff0ee;border-radius:9px;padding:13px;margin-top:16px}footer{text-align:center;color:#7d8c84;font-size:12px;margin:28px 0} [hidden]{display:none!important}
+    @media(max-width:550px){main{margin-top:35px}h1{font-size:26px}.card{padding:20px}.actions{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <header><span class="brand">Arabic RAG <span class="mark">✦</span></span></header>
+  <main>
+    <div class="intro"><h1>اسأل مستنداتك بالعربية</h1><p>اكتب سؤالك واحصل على إجابة مستندة إلى محتوى مستنداتك، مع مصادرها.</p></div>
+    <form class="card" id="form">
+      <label for="question">ما الذي تريد معرفته؟</label>
+      <textarea id="question" name="question" placeholder="مثال: ما الهدف الأساسي من الذكاء الاصطناعي؟" required maxlength="3000"></textarea>
+      <div class="actions"><button id="submit" type="submit">اسأل الآن ←</button><span class="hint">الإجابة من المستندات المفهرسة</span></div>
+      <p id="status" role="status" aria-live="polite"></p>
+      <p id="error" role="alert" hidden></p>
+    </form>
+    <section class="card" id="result" aria-labelledby="answer-heading" hidden>
+      <h2 id="answer-heading">الإجابة</h2><div class="answer" id="answer"></div>
+    </section>
+    <section class="card" id="sources-panel" aria-labelledby="sources-heading" hidden>
+      <h2 id="sources-heading">المصادر</h2><div id="sources"></div>
+    </section>
+    <footer>قد تحتوي الإجابة على أخطاء. راجع المقاطع المصدرية للتحقق.</footer>
+  </main>
+  <script>
+    const $ = id => document.getElementById(id);
+    $('form').addEventListener('submit', async event => {
+      event.preventDefault();
+      const question = $('question').value.trim();
+      if (!question) { $('question').focus(); return; }
+      $('submit').disabled = true;
+      $('form').setAttribute('aria-busy', 'true');
+      $('error').hidden = true;
+      $('result').hidden = true;
+      $('sources-panel').hidden = true;
+      $('status').textContent = 'جارٍ البحث في المستندات وإعداد الإجابة… قد يستغرق ذلك بضع دقائق.';
+      try {
+        const response = await fetch('/api/ask', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question})});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'تعذّر إكمال الطلب.');
+        $('answer').textContent = data.answer;
+        $('sources').replaceChildren();
+        data.sources.forEach((source, i) => {
+          const details = document.createElement('details');
+          const summary = document.createElement('summary');
+          const name = document.createElement('span');
+          name.className = 'source-name';
+          name.textContent = source.source_file;
+          summary.append(`[S${i+1}] `, name, ` · الصفحة ${source.pdf_page}`);
+          const passage = document.createElement('p');
+          passage.textContent = source.text;
+          details.append(summary, passage);
+          $('sources').append(details);
+        });
+        $('result').hidden = false;
+        $('sources-panel').hidden = false;
+        $('status').textContent = 'تم إعداد الإجابة.';
+      } catch (error) {
+        $('status').textContent = '';
+        $('error').textContent = error instanceof TypeError ? 'تعذّر الاتصال بالخادم. تأكد من تشغيل التطبيق ثم حاول مجددًا.' : error.message;
+        $('error').hidden = false;
+      } finally {
+        $('submit').disabled = false;
+        $('form').removeAttribute('aria-busy');
+      }
+    });
+  </script>
+</body>
+</html>

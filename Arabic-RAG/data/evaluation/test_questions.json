@@ -1,0 +1,109 @@
+[
+  
+  {
+    "id": "AR_Q001",
+    "question": "ما غاية الذكاء الاصطناعي الأساسية؟",
+    "reference_answer": "جعل الحواسيب تؤدي مهام يستطيع العقل أداءها.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 11
+  },
+  {
+    "id": "AR_Q002",
+    "question": "ما هدفا الذكاء الاصطناعي؟",
+    "reference_answer": "إنجاز مهام مفيدة وفهم الإنسان والكائنات الحية.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 12
+  },
+  {
+    "id": "AR_Q003",
+    "question": "ما الجهاز الافتراضي؟",
+    "reference_answer": "تصور لنظام يعالج المعلومات، وليس محاكاة بصرية لجهاز.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 13
+  },
+  {
+    "id": "AR_Q004",
+    "question": "اذكر مثالين لمستشعرات أنظمة الذكاء الاصطناعي.",
+    "reference_answer": "الكاميرات والشعيرات الحساسة للضغط.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 14
+  },
+  {
+    "id": "AR_Q005",
+    "question": "فيم تفيد الشبكات العصبية؟",
+    "reference_answer": "نمذجة جوانب عقلية وتمييز الأنماط وتعلمها.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 15
+  },
+  {
+    "id": "AR_Q006",
+    "question": "من صمم المحرك التحليلي ومتى؟",
+    "reference_answer": "تشارلز باباج سنة 1834.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 16
+  },
+  {
+    "id": "AR_Q007",
+    "question": "ما قيم الحقيقة في منطق القضايا؟",
+    "reference_answer": "قيمتان فقط: الصواب والخطأ.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 17
+  },
+  {
+    "id": "AR_Q008",
+    "question": "من ابتكر برنامج الداما المذكور؟",
+    "reference_answer": "آرثر صمويل.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 18
+  },
+  {
+    "id": "AR_Q009",
+    "question": "بم تميزت آلة حل المسائل العامة؟",
+    "reference_answer": "إمكانية تطبيقها في مجالات متعددة بعد تمثيل مسائلها.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 19
+  },
+  {
+    "id": "AR_Q010",
+    "question": "من سمى السبرانية ومتى؟",
+    "reference_answer": "نوربرت وينر سنة 1948.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 20
+  },
+  {
+    "id": "AR_Q011",
+    "question": "ماذا قد تنتج أخطاء النسخ عند فون نيومان؟",
+    "reference_answer": "قد تقود إلى التطور.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 21
+  },
+  {
+    "id": "AR_Q012",
+    "question": "اذكر سلوكين لروبوتات جراي وولتر.",
+    "reference_answer": "التوجه نحو الضوء وتفادي العوائق.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 22
+  },
+  {
+    "id": "AR_Q013",
+    "question": "متى بدأ الانقسام الفكري بين الباحثين؟",
+    "reference_answer": "قرابة سنة 1960.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 23
+  },
+  {
+    "id": "AR_Q014",
+    "question": "من صاغ تسمية الذكاء الاصطناعي ومتى؟",
+    "reference_answer": "جون مكارثي سنة 1956.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 24
+  },
+  {
+    "id": "AR_Q015",
+    "question": "متى تجدد ظهور الشبكات العصبية؟",
+    "reference_answer": "سنة 1986.",
+    "source_file": "artificial_intelligence_ar.pdf",
+    "pdf_page": 25
+  }
+
+]

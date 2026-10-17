@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TechQA · Document search</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f7fa; color: #182739; font: 16px/1.6 system-ui, sans-serif; }
+    main { max-width: 860px; margin: 64px auto; padding: 0 24px; }
+    .brand { color: #276651; font-weight: 750; letter-spacing: .12em; font-size: 13px; }
+    h1 { font-size: clamp(28px, 5vw, 38px); letter-spacing: -.04em; margin: 12px 0 4px; }
+    .muted { color: #647184; }
+    form { margin-top: 30px; padding: 24px; background: white; border: 1px solid #dce3e9; border-radius: 14px; }
+    label { display: block; font-weight: 650; margin-bottom: 10px; }
+    textarea { width: 100%; padding: 14px; min-height: 110px; resize: vertical; border: 1px solid #bfcbd5; border-radius: 8px; font: inherit; }
+    button { cursor: pointer; font: inherit; }
+    .submit { background: #24664f; color: white; border: 0; border-radius: 8px; padding: 11px 22px; margin-top: 12px; font-weight: 650; }
+    button:disabled { opacity: .6; cursor: wait; }
+    :focus-visible { outline: 3px solid #69acdf; outline-offset: 3px; }
+    #status { min-height: 26px; margin: 22px 0 12px; }
+    .error { color: #ac2d2d; }
+    .card { display: block; width: 100%; text-align: left; color: inherit; background: white; border: 1px solid #dce3e9; border-radius: 12px; padding: 22px; margin-bottom: 14px; }
+    .card:hover { border-color: #24664f; background: #fbfefc; }
+    .meta { color: #647184; font-size: 13px; }
+    .title { font-size: 18px; font-weight: 650; margin: 7px 0; display: block; }
+    .snippet { color: #526174; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .open { display: block; margin-top: 12px; color: #24664f; font-size: 14px; font-weight: 650; }
+    dialog { width: min(900px, 94vw); max-height: 88vh; border: 1px solid #dce3e9; border-radius: 14px; padding: 28px; color: inherit; }
+    dialog::backdrop { background: #10243299; }
+    .viewer-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .viewer-head h2 { font-size: 18px; overflow-wrap: anywhere; }
+    #close { border: 1px solid #cbd5df; background: white; padding: 7px 14px; border-radius: 7px; }
+    #document-text { white-space: pre-wrap; overflow-wrap: anywhere; font: 15px/1.8 system-ui, sans-serif; }
+    @media (max-width: 600px) { main { margin-top: 32px; } form, .card { padding: 18px; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="brand">TECHQA</div>
+  <h1>Find the right document.</h1>
+  <p class="muted">Ask a question to find the top 3 matching documents in your collection.</p>
+  <form id="search-form">
+    <label for="question">Your question</label>
+    <textarea id="question" required maxlength="4000" placeholder="How do I configure SSL in IBM HTTP Server?"></textarea>
+    <button class="submit" id="search-button" type="submit">Search documents</button>
+  </form>
+  <p id="status" role="status" aria-live="polite">Your matching documents will appear here.</p>
+  <section id="results" aria-label="Matching documents"></section>
+</main>
+<dialog id="viewer" aria-labelledby="document-title">
+  <div class="viewer-head"><h2 id="document-title">Document</h2><button id="close" autofocus>Close</button></div>
+  <p class="muted">Full document · cleaned source text</p>
+  <pre id="document-text"></pre>
+</dialog>
+<script>
+  const form = document.querySelector('#search-form');
+  const results = document.querySelector('#results');
+  const status = document.querySelector('#status');
+  const submit = document.querySelector('#search-button');
+  const viewer = document.querySelector('#viewer');
+  const docText = document.querySelector('#document-text');
+  let documentRequest = 0;
+  document.querySelector('#close').onclick = () => viewer.close();
+  viewer.addEventListener('close', () => { documentRequest++; });
+
+  async function request(url, options) {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed. Please try again.');
+    return data;
+  }
+
+  async function openDocument(source) {
+    const id = ++documentRequest;
+    document.querySelector('#document-title').textContent = source;
+    docText.textContent = 'Loading document…';
+    viewer.showModal();
+    try {
+      const data = await request('/api/document?source=' + encodeURIComponent(source));
+      if (id === documentRequest) docText.textContent = data.text;
+    } catch (error) {
+      if (id === documentRequest) docText.textContent = error.message;
+    }
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const question = document.querySelector('#question').value.trim();
+    status.className = '';
+    results.replaceChildren();
+    if (!question) { status.textContent = 'Please enter a question.'; return; }
+    submit.disabled = true;
+    submit.textContent = 'Searching…';
+    status.textContent = 'Searching your documents…';
+    results.setAttribute('aria-busy', 'true');
+    try {
+      const data = await request('/api/search', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({question})
+      });
+      status.textContent = data.results.length ? `Top ${data.results.length} documents · select one to read it` : 'No documents found.';
+      data.results.forEach((doc, i) => {
+        const card = document.createElement('button');
+        card.className = 'card';
+        card.type = 'button';
+        const lines = [
+          ['meta', `${i + 1} · ${doc.source_file} · Similarity ${doc.score.toFixed(3)}`],
+          ['title', doc.title], ['snippet', doc.text], ['open', 'View full document →']
+        ];
+        for (const [className, text] of lines) {
+          const span = document.createElement('span');
+          span.className = className;
+          span.textContent = text;
+          card.append(span);
+        }
+        card.onclick = () => openDocument(doc.source_file);
+        results.append(card);
+      });
+    } catch (error) {
+      status.className = 'error';
+      status.textContent = error instanceof TypeError ? 'Cannot reach the search server. Make sure app.py is running.' : error.message;
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Search documents';
+      results.setAttribute('aria-busy', 'false');
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Installable dependencies and downloaded models
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+Arabic-RAG/models/
+.env
+.env.*
+!.env.example

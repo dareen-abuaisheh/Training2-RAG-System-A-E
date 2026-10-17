@@ -1,0 +1,6 @@
+# Install from the repository root: python -m pip install -r requirements.txt
+# External tools and run commands are documented in REQUIREMENTS.md.
+faiss-cpu
+numpy
+sentence-transformers
+PyMuPDF

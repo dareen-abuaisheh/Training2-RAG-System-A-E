@@ -1,0 +1,587 @@
+[
+  {
+    "chunk_id": "swg21179559_chunk_001",
+    "source_file": "swg21179559.txt",
+    "text": "Title: IBM Guide to properly setting up SSL within the IBM HTTP Server - United States\n\nssl; handshake; secure socket layer; handshake failed; enable; ssl config; ssl setup; setup; IHS; crl; revocation; ssl; ssl; ssl; configure; config; config; config TECHNOTE (TROUBLESHOOTING)\n\nPROBLEM(ABSTRACT)\n The following information can be used as a guide for setting up the Secure Sockets Layer (SSL) within the IBM HTTP Server. This document covers information on setting up SSL virtualhosts, creating keyfiles, certificates along with how to protect access to directories and URLs to specific ciphers. Also, included is documentation on how to trace and record SSL traffic between a client browser and the Web server.\n\nRESOLVING THE PROBLEM\nThe following steps help guide you through the proper set up of SSL within the IBM HTTP Server:\n\n 1. Confirm that the Global Security Kit (GSKit) is installed and meets the minimum requirements\n\n 2. Create a key database file and certificates needed to authenticate the Web server during an SSL",
+    "token_count": 242,
+    "word_count": 162,
+    "start_char": 0,
+    "end_char": 1030
+  },
+  {
+    "chunk_id": "swg21179559_chunk_002",
+    "source_file": "swg21179559.txt",
+    "text": ":\n\n 1. Confirm that the Global Security Kit (GSKit) is installed and meets the minimum requirements\n\n 2. Create a key database file and certificates needed to authenticate the Web server during an SSL handshake\n\n 3. Enable SSL directives within the IBM HTTP Server configuration file (httpd.conf)\n\n 4. Other considerations when enabling SSL directives within the IBM HTTP Server configuration file (httpd.conf)\n\n 5. Information that IBM WebSphere® Support needs to debug SSL configuration and certificate issues related to the IBM HTTP Server\n\n 1. Confirm that the Global Security Kit is installed and meets the minimum requirements\n\n    The Global Security Kit (GSKit) is a required component for the Secure Sockets Layer (SSL) enablement within the IBM HTTP Server. Therefore, it is important to confirm that a supported version of the Global Security Kit is installed prior to enabling SSL.\n\n    For a complete listing of IBM HTTP Server releases and corresponding Global Security Kit versions, click IBM HTTP Server: Global Security Kit (GSKit) supported versions [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQ",
+    "token_count": 242,
+    "word_count": 163,
+    "start_char": 830,
+    "end_char": 1957
+  },
+  {
+    "chunk_id": "swg21179559_chunk_003",
+    "source_file": "swg21179559.txt",
+    "text": "HTTP Server: Global Security Kit (GSKit) supported versions [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21173214].\n\n 2. Create a key database file and certificates needed to authenticate the Web server during an SSL handshake\n\n    The iKeyman GUI, which is included within the IBM HTTP Server distribution, can be used to create a key database file (for example: key.kdb) needed to store personal server certificates required by the client browser during an SSL handshake.\n\n    For quick information on how to create a key database file and personal server certificates, refer to the technote IKEYMAN, How do I...? [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21006430]\n\n    More extensive information on using the iKeyman GUI to create key database files and certificates is located here:  * For releases of IBM HTTP Server v7.0 [http://pic.dh",
+    "token_count": 242,
+    "word_count": 117,
+    "start_char": 1838,
+    "end_char": 2731
+  },
+  {
+    "chunk_id": "swg21179559_chunk_004",
+    "source_file": "swg21179559.txt",
+    "text": "]\n\n    More extensive information on using the iKeyman GUI to create key database files and certificates is located here:  * For releases of IBM HTTP Server v7.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Fwelc_ikeymangui.html]\n     * For releases of IBM HTTP Server v8.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v8r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Fwelc_ikeymangui.html]\n     * For releases of IBM HTTP Server v8.5 [http://www-01.ibm.com/support/knowledgecenter/SSD28V_8.5.5/com.ibm.websphere.ihs.doc/ihs/",
+    "token_count": 242,
+    "word_count": 46,
+    "start_char": 2555,
+    "end_char": 3167
+  },
+  {
+    "chunk_id": "swg21179559_chunk_005",
+    "source_file": "swg21179559.txt",
+    "text": "www-01.ibm.com/support/knowledgecenter/SSD28V_8.5.5/com.ibm.websphere.ihs.doc/ihs/welc_ikeymangui.html]\n     * For releases of IBM HTTP Server v9.0 [https://www.ibm.com/support/knowledgecenter/SSAW57_9.0.0/com.ibm.websphere.ihs.doc/ihs/welc_ikeymangui.html]\n\n 3. Enable SSL directives within the IBM HTTP Server's configuration file (httpd.conf)\n     1. Verify that the SSL modules are uncommented\n         * For Microsoft® Windows®:\n\n           LoadModule ibm_ssl_module modules/mod_ibm_ssl.so [/support/docview.wss?uid=swg21179559&aid=1]\n\n         * For UNIX® platforms:\n\n           LoadModule ibm_ssl_module modules/mod_ibm_ssl.so [/support/docview.wss?uid=swg",
+    "token_count": 242,
+    "word_count": 46,
+    "start_char": 3085,
+    "end_char": 3748
+  },
+  {
+    "chunk_id": "swg21179559_chunk_006",
+    "source_file": "swg21179559.txt",
+    "text": "For UNIX® platforms:\n\n           LoadModule ibm_ssl_module modules/mod_ibm_ssl.so [/support/docview.wss?uid=swg21179559&aid=2]\n\n     2. Create an SSL virtualhost stanza using the following examples and directives\n\n        If you are enabling one Web site for SSL, and the hostname is the same as the one already defined in the Global Scope for non-SSL (port 80), you can enable SSL as follows. This virtualhost uses the default hostname defined by the ServerName directive in the Global Scope and the IP address associated with it.\n\n        http://www.mycompany.com (non-SSL) 192.168.1.102 https://www.mycompany.com (SSL) 192.168.1.102\n\n        Example 1:\n\n        Listen 80\n        ServerName www.mycompany.com\n\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n\n        Document",
+    "token_count": 242,
+    "word_count": 103,
+    "start_char": 3637,
+    "end_char": 4549
+  },
+  {
+    "chunk_id": "swg21179559_chunk_007",
+    "source_file": "swg21179559.txt",
+    "text": ".com\n\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n\n        DocumentRoot \"c:/program files/ibm http server/htdocs\"\n        DirectoryIndex index.html\n\n        Listen 443\n        <VirtualHost :443>\n        SSLEnable\n        SSLClientAuth None\n        </VirtualHost>\n\n        SSLDisable\n        KeyFile \"c:/program files/ibm http server/key.kdb\"\n        SSLV2Timeout 100\n        SSLV3Timeout 1000 [/support/docview.wss?uid=swg21179559&aid=3]\n\n        If you are enabling one Web site for SSL and the ServerName is different than the ServerName already defined in the Global Scope for non-SSL (port 80), you can enable SSL as follows. Both hostnames must be registered in DNS to a separate IP address, and both IP addresses must be configured on local network interface cards.\n\n        http://www.mycompany.com (non-",
+    "token_count": 242,
+    "word_count": 101,
+    "start_char": 4344,
+    "end_char": 5293
+  },
+  {
+    "chunk_id": "swg21179559_chunk_008",
+    "source_file": "swg21179559.txt",
+    "text": "must be registered in DNS to a separate IP address, and both IP addresses must be configured on local network interface cards.\n\n        http://www.mycompany.com (non-SSL) 192.168.1.102 http://www.mycompany2.com (non-SSL) 192.168.1.103 https://www.mycompany2.com (SSL) 192.168.1.103\n\n        Example 2:\n\n        Listen 80\n        ServerName www.mycompany.com\n\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n\n        DocumentRoot \"c:/program files/ibm http server/htdocs\"\n        DirectoryIndex index.html\n\n        <VirtualHost 192.168.1.103:80>\n        ServerName www.mycompany2.com\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>",
+    "token_count": 242,
+    "word_count": 78,
+    "start_char": 5127,
+    "end_char": 6026
+  },
+  {
+    "chunk_id": "swg21179559_chunk_009",
+    "source_file": "swg21179559.txt",
+    "text": ".com\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs2\"\n        DirectoryIndex index2.html\n        </VirtualHost>\n\n        Listen 443\n        <VirtualHost 192.168.1.103:443>\n        ServerName www.mycompany2.com\n        SSLEnable\n        SSLClientAuth None\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs2\"\n        DirectoryIndex index2.html\n        </VirtualHost>\n\n        SSLDisable\n        KeyFile \"c:/program files/ibm http server/key.kdb\"\n        SSLV2Timeout 100\n        SSLV3Timeout 1000\n        If you are enabling multiple Web sites for SSL, you can enable SSL as follows. All host",
+    "token_count": 242,
+    "word_count": 83,
+    "start_char": 5839,
+    "end_char": 6822
+  },
+  {
+    "chunk_id": "swg21179559_chunk_010",
+    "source_file": "swg21179559.txt",
+    "text": "key.kdb\"\n        SSLV2Timeout 100\n        SSLV3Timeout 1000\n        If you are enabling multiple Web sites for SSL, you can enable SSL as follows. All hostnames must be registered in DNS to a separate IP address. Also, all the IP addresses must be configured on a local network interface card. You must use the SSLServerCert directive to identify which personal server certificate in the key database file is passed to the client browser during the SSL handshake for each Web site. If the SSLServerCert directive is not defined, the IBM HTTP Server passes whatever certificate in the key database file is marked(*) as the \"default key\".\n\n        For more information on why different IP addresses are required when enabling multiple Web sites for SSL: IP-Based Virtual Hosting must be used if configuring multiple SSL Virtual Host [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21045922]http://www.mycompany.com (non",
+    "token_count": 242,
+    "word_count": 133,
+    "start_char": 6667,
+    "end_char": 7605
+  },
+  {
+    "chunk_id": "swg21179559_chunk_011",
+    "source_file": "swg21179559.txt",
+    "text": "wss?rs=177&context=SSEQTJ&uid=swg21045922]http://www.mycompany.com (non-SSL) 192.168.1.102 https://www.mycompany.com (non-SSL) 192.168.1.102 http://www.mycompany2.com (non-SSL) 192.168.1.103 https://www.mycompany2.com (SSL) 192.168.1.103 http://www.mycompany3.com (non-SSL) 192.168.1.104 https://www.mycompany3.com (SSL) 192.168.1.104\n\n        Example 3:\n\n        Listen 80\n        ServerName www.mycompany.com\n\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n\n        DocumentRoot \"c:/program files/ibm http",
+    "token_count": 242,
+    "word_count": 43,
+    "start_char": 7534,
+    "end_char": 8176
+  },
+  {
+    "chunk_id": "swg21179559_chunk_012",
+    "source_file": "swg21179559.txt",
+    "text": "IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n\n        DocumentRoot \"c:/program files/ibm http server/htdocs\"\n        DirectoryIndex index.html\n\n        <VirtualHost 192.168.1.103:80>\n        ServerName www.mycompany2.com\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs2\"\n        DirectoryIndex index2.html\n        </VirtualHost>\n\n        <VirtualHost 192.168.1.104:80>\n        ServerName www.mycompany3.com\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs3\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs3\"\n        DirectoryIndex index3.html\n        <",
+    "token_count": 242,
+    "word_count": 74,
+    "start_char": 7983,
+    "end_char": 8978
+  },
+  {
+    "chunk_id": "swg21179559_chunk_013",
+    "source_file": "swg21179559.txt",
+    "text": "None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs3\"\n        DirectoryIndex index3.html\n        </VirtualHost>\n\n        Listen 443\n        <VirtualHost 192.168.1.102:443>\n        ServerName www.mycompany.com\n        SSLEnable\n        SSLClientAuth None\n        SSLServerCert mycompany\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs\"\n        DirectoryIndex index.html\n        </VirtualHost>\n\n        <VirtualHost 192.168.1.103:443>\n        ServerName www.mycompany2.com\n        SSLEnable\n        SSLClientAuth None\n        SSLServerCert mycompany2\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all",
+    "token_count": 242,
+    "word_count": 72,
+    "start_char": 8796,
+    "end_char": 9786
+  },
+  {
+    "chunk_id": "swg21179559_chunk_014",
+    "source_file": "swg21179559.txt",
+    "text": "t mycompany2\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs2\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs2\"\n        DirectoryIndex index2.html\n        </VirtualHost>\n\n        <VirtualHost 192.168.1.104:443>\n        ServerName www.mycompany3.com\n        SSLEnable\n        SSLClientAuth None\n        SSLServerCert mycompany3\n        <Directory \"c:/Program Files/IBM HTTP Server/htdocs3\">\n        Options Indexes\n        AllowOverride None\n        order allow,deny\n        allow from all\n        </Directory>\n        DocumentRoot \"c:/program files/ibm http server/htdocs3\"\n        DirectoryIndex index3.html\n        </VirtualHost>\n\n        SSLDisable\n        KeyFile \"c:/program files/ibm http server/key.kdb\"\n        SSLV2Timeout 100\n        SSLV3Timeout 1000\n\n 4. Other considerations when enabling SSL directive",
+    "token_count": 242,
+    "word_count": 74,
+    "start_char": 9612,
+    "end_char": 10575
+  },
+  {
+    "chunk_id": "swg21179559_chunk_015",
+    "source_file": "swg21179559.txt",
+    "text": "le \"c:/program files/ibm http server/key.kdb\"\n        SSLV2Timeout 100\n        SSLV3Timeout 1000\n\n 4. Other considerations when enabling SSL directives within the IBM HTTP Server configuration file (httpd.conf).\n\n     * How to rewrite HTTP (port 80) requests to HTTPS (port 443)\n       The rewrite module (mod_rewrite.c) provided with the IBM HTTP Server can be used as an effective way to automatically rewrite all HTTP requests to HTTPS. For complete information click How to rewrite HTTP (port 80) requests to HTTPS (port 443) [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21114864].\n\n     * Logging SSL request information in the access log for IBM HTTP Server\n       The IBM HTTP Server implementation provides Secure Sockets Layer (SSL) environment variables that are configurable with the LogFormat directive in httpd.conf. For complete information click Logging SSL request information in the access log for IBM HTTP Server [http:",
+    "token_count": 242,
+    "word_count": 128,
+    "start_char": 10425,
+    "end_char": 11386
+  },
+  {
+    "chunk_id": "swg21179559_chunk_016",
+    "source_file": "swg21179559.txt",
+    "text": "variables that are configurable with the LogFormat directive in httpd.conf. For complete information click Logging SSL request information in the access log for IBM HTTP Server [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21176455].\n\n     * Enabling Certificate Revocation Lists (CRL) in the IBM HTTP Server\n       Certificate revocation provides the ability to revoke a client certificate given to the IBM HTTP Server by the browser when the key is compromised or when access permission to the key is revoked. CRL represents a database that contains a list of certificates revoked before their scheduled expiration date. For complete information:  * For releases of IBM HTTP Server v7.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Fcihs_crlinssl.html]\n        * For releases of",
+    "token_count": 242,
+    "word_count": 103,
+    "start_char": 11203,
+    "end_char": 12074
+  },
+  {
+    "chunk_id": "swg21179559_chunk_017",
+    "source_file": "swg21179559.txt",
+    "text": "Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Fcihs_crlinssl.html]\n        * For releases of IBM HTTP Server v8.5 [http://www-01.ibm.com/support/knowledgecenter/SSD28V_8.5.5/com.ibm.websphere.ihs.doc/ihs/cihs_crlinssl.html]\n        * For releases of IBM HTTP Server v8.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v8r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Fcihs_crlinssl.html]\n\n 5. Information that IBM WebSphere Support needs to debug SSL configuration and certificate issues related to the IBM HTTP Server\n     * MustGather: SSL handshake and configuration problems [http://www.ibm.com/support/docview.wss?rs=",
+    "token_count": 242,
+    "word_count": 47,
+    "start_char": 11981,
+    "end_char": 12621
+  },
+  {
+    "chunk_id": "swg21179559_chunk_018",
+    "source_file": "swg21179559.txt",
+    "text": "related to the IBM HTTP Server\n     * MustGather: SSL handshake and configuration problems [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21141302]\n\n     * MustGather: CMS key database (.kdb) and certificate problems [http://www.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21141303]\n\n * Brief description of the SSL directives discussed in this document\n\n   Listen\n * SSLEnable\n * SSLClientAuth None\n * SSLDisable\n * KeyFile\n * SSLV2Timeout\n * SSLV3Timeout\n * SSLServerCert\n * SSLCipherSpec\n * SSLCipherRequire\n *  For releases of IBM HTTP Server v7.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/index.jsp?topic=%2Fcom.",
+    "token_count": 242,
+    "word_count": 64,
+    "start_char": 12487,
+    "end_char": 13145
+  },
+  {
+    "chunk_id": "swg21179559_chunk_019",
+    "source_file": "swg21179559.txt",
+    "text": "0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v7r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Frihs_ssldirs.html] For releases of IBM HTTP Server v8.0 [http://pic.dhe.ibm.com/infocenter/wasinfo/v8r0/index.jsp?topic=%2Fcom.ibm.websphere.ihs.doc%2Finfo%2Fihs%2Fihs%2Frihs_ssldirs.html] For releases of IBM HTTP Server v8.5 [http://www-01.ibm.com/support/knowledgecenter/SSAW57_8.5.5/com.ibm.websphere.ihs.doc/ihs/rihs_ssldirs.html] For releases of IBM HTTP Server v9.0 [https://www.ibm.com/support/knowledgecent",
+    "token_count": 242,
+    "word_count": 26,
+    "start_char": 13072,
+    "end_char": 13602
+  },
+  {
+    "chunk_id": "swg21179559_chunk_020",
+    "source_file": "swg21179559.txt",
+    "text": ".doc/ihs/rihs_ssldirs.html] For releases of IBM HTTP Server v9.0 [https://www.ibm.com/support/knowledgecenter/SSAW57_9.0.0/com.ibm.websphere.ihs.doc/ihs/rihs_ssldirs.html]",
+    "token_count": 78,
+    "word_count": 9,
+    "start_char": 13495,
+    "end_char": 13666
+  },
+  {
+    "chunk_id": "swg21263677_chunk_001",
+    "source_file": "swg21263677.txt",
+    "text": "Title: IBM Rational Application Developer Support Policy for 64 bit technology - United States\n\nRSM; RSD; RSA; RAD; caspian64 bit; 64-bit; RAD 7 64 bit; RAD 7 OS; operating system; Rational Application Developer; X64; Windows 64 bit; supported OS; AMD; PMR #13878; 379; 000; 13878379000; 1263677; 64bit; 64 bit; 32 bit; 32bit; 32-bit; 64-bit; O/S; OS; requirements; system requirements; 8.0.3; 8.0; 7.5; v8.0.3; v7.5; v7.0; v8.0; v7.5.4; 803; windows 7; server; profile; websphere; test environment; create profile; button; greyed; Run Profile Management Tool ; disabled; IBM Software Development Kit; SDK; JRE; Program Files(x86); WAS; websphere application server; clearcase; scm; clearcase scm adapter; rational requisitepro; reqpro;",
+    "token_count": 242,
+    "word_count": 105,
+    "start_char": 0,
+    "end_char": 736
+  },
+  {
+    "chunk_id": "swg21263677_chunk_002",
+    "source_file": "swg21263677.txt",
+    "text": "; JRE; Program Files(x86); WAS; websphere application server; clearcase; scm; clearcase scm adapter; rational requisitepro; reqpro; heap size; jvm; max os x; os x; osx; mac TECHNOTE (FAQ)\n\nQUESTION\n What is the support policy for using IBM Rational Application Developer for WebSphere Software, IBM Rational Software Architect, IBM Rational Software Modeler or IBM Rational Systems Developer version 7.x and 8.x with 64-bit operating systems for Microsoft Windows or Linux?\n\nCAUSE\nThe 7.0.0.x, v7.5.x and v8.0 to 8.0.2 versions of these applications were not designed to take advantage of 64 bit computing and only use 32-bit technology.\n\nANSWER\nThe following IBM Rational Software version 7.x products are only supported on specified 64 bit operating systems running in 32 bit mode:\n\n * Rational Application Developer for WebSphere Software\n * Rational Software Architect\n * Rational Software Modeler\n * Rational Systems Developer\n\nSimilarly, Rational Application Developer (RAD) and Rational Software Architect (RSA) version 8.0 to 8.0.2 are only",
+    "token_count": 242,
+    "word_count": 154,
+    "start_char": 605,
+    "end_char": 1653
+  },
+  {
+    "chunk_id": "swg21263677_chunk_003",
+    "source_file": "swg21263677.txt",
+    "text": "Software Architect\n * Rational Software Modeler\n * Rational Systems Developer\n\nSimilarly, Rational Application Developer (RAD) and Rational Software Architect (RSA) version 8.0 to 8.0.2 are only supported on specified 64 bit operating systems running in 32 bit mode. Rational Application Developer v8.0.3+ is available as a 64-bit application install on specified 64-bit operating systems, in addition to a 32-bit application install.\nThere is only one installation package. When installing RAD/RSA using IBM Installation Manager, on the Location page , if your operating system is 64-bit, then select 64-bit or 32-bit to install the product in the corresponding bit mode.\n\nThese products will be referred to generically as Rational Software Development Platform (RSDP) based products. For example, WebSphere Integration Developer v6.x/7.x is RSDP based.\n\nExamples of some 64 bit Operating Systems:\n\n * Microsoft Windows XP Professional x64 Edition (running on an AMD or Intel processor)\n * Microsoft Windows 7 Professional 64-bit\n * Red Hat Linux Enterprise Server 4+ running on x86-64 bit\n * RAD 9.0 under 9.0.",
+    "token_count": 242,
+    "word_count": 166,
+    "start_char": 1459,
+    "end_char": 2571
+  },
+  {
+    "chunk_id": "swg21263677_chunk_004",
+    "source_file": "swg21263677.txt",
+    "text": "AMD or Intel processor)\n * Microsoft Windows 7 Professional 64-bit\n * Red Hat Linux Enterprise Server 4+ running on x86-64 bit\n * RAD 9.0 under 9.0.1 introduced support for Mac OS x - Lion 10.7 32 bit (with Oracle JDK for Mac OS X 7.0 Update 40) and Mountain Lion 10.8 - 32 bit. Likewise for RSA for WebSphere 9.0.0.1.\n   RAD 9.0.1.1 introduced support for 64-bit exploit on Mac OS x Mavericks 10.9 ( with Oracle JDK for Mac OS X 7.0 Update 71)\n   RSA 9.1.2 introduced support for 64-bit exploit on Mac OS X Yosemite 10.10 and OS X El Capitan 10.11 (with Oracle JDK 7.0 Update 75 for OS X)\n\nNote: RSDP 32-bit JVM based products, do not require any additional or special set-up on a supported 64-bit operating system (O/S).\nThey run on the provided/supported 32-bit JVM for that RSDP product, as is.\n\nReview",
+    "token_count": 242,
+    "word_count": 147,
+    "start_char": 2423,
+    "end_char": 3229
+  },
+  {
+    "chunk_id": "swg21263677_chunk_005",
+    "source_file": "swg21263677.txt",
+    "text": "set-up on a supported 64-bit operating system (O/S).\nThey run on the provided/supported 32-bit JVM for that RSDP product, as is.\n\nReview the following documents for more details on the system requirements:\n * (7014264) Rational Application Developer System Requirements List [http://www.ibm.com/support/docview.wss?uid=swg27014264]\n * (7014274) Rational Software Architect Family System Requirements List [http://www.ibm.com/support/docview.wss?uid=swg27014274]\n * (7014269) Rational Software Modeler System Requirements List [http://www.ibm.com/support/docview.wss?uid=swg27014269]\n\nThe above items such as the Rational Application Developer System Requirements List cover latest versions and operating systems such as Windows Vista and Windows 7. Support is limited to 32 bit mode on 64 bit operating systems on all versions prior to Rational Application Developer 8.0.3. For more information consult:\nKnown problems",
+    "token_count": 242,
+    "word_count": 112,
+    "start_char": 3093,
+    "end_char": 4011
+  },
+  {
+    "chunk_id": "swg21263677_chunk_006",
+    "source_file": "swg21263677.txt",
+    "text": "as Windows Vista and Windows 7. Support is limited to 32 bit mode on 64 bit operating systems on all versions prior to Rational Application Developer 8.0.3. For more information consult:\nKnown problems and limitations to installing 64-bit Rational Application Developer [http://www.ibm.com/support/docview.wss?uid=swg21499482]\nas referred to by the above Rational Application Developer System Requirements List. The following technote:\n- Benefits, requirements, limitations, and known issues for Rational Software Architect products running as 64-bit applications starting from v8.0.3 [http://www-01.ibm.com/support/docview.wss?uid=swg27021665]\n, especially Benefits, describes what is possible with a larger heap size with the 64-bit JVM.\n\nIn deciding if you want a 64-bit install of RAD/RSA, it is useful to know that the ClearCase SCM Adapter and the Rational RequisitePro integration features/plugins are not supported or provided. These are only available as 32-bit eclipse plugins.\n\nIf",
+    "token_count": 242,
+    "word_count": 133,
+    "start_char": 3810,
+    "end_char": 4801
+  },
+  {
+    "chunk_id": "swg21263677_chunk_007",
+    "source_file": "swg21263677.txt",
+    "text": "to know that the ClearCase SCM Adapter and the Rational RequisitePro integration features/plugins are not supported or provided. These are only available as 32-bit eclipse plugins.\n\nIf you have any further questions, contact IBM Support for Rational Application Developer, or the appropriate IBM RSDP product support team.\n\nWebSphere Servers that are shipped with RSDP products:\n\nThe various WebSphere Application Server v6.x/7.x servers shipped with Rational Application Developer or Rational Software Architect {for WebSphere} prior to v8.0.4 are only provided as 32 bit editions. As of Rational Application Developer or Rational Software Architect {for WebSphere} v8.0.4+, 64 bit editions of WebSphere Application Server v6.x/7.x servers are shipped in addition to the 32 bit editions.\n\nThe WebSphere Application Server v8.x (not beta) server shipped with Rational Application Developer or Rational Software Architect {for WebSphere} v8.0.3+ is provided as one edition, and there is an installation option to install either the 32 bit or 64 bit JVM/JRE (IBM Software Development Kit (SDK)). Any 64 bit edition",
+    "token_count": 242,
+    "word_count": 163,
+    "start_char": 4617,
+    "end_char": 5729
+  },
+  {
+    "chunk_id": "swg21263677_chunk_008",
+    "source_file": "swg21263677.txt",
+    "text": "as one edition, and there is an installation option to install either the 32 bit or 64 bit JVM/JRE (IBM Software Development Kit (SDK)). Any 64 bit edition or 64-bit JVM requires a supported 64 bit operating system. This IBM Education Assistant Module/PDF : IBM WebSphere Application Server V8 Distributed platform installation [http://publib.boulder.ibm.com/infocenter/ieduasst/v1r1m0/topic/com.ibm.iea.was_v8/was/8.0/Installation/WASV8_dist_install.pdf] , demonstrates selecting a 32-bit or 64-bit SDK as part of a WAS v8.0 install using IBM Installation manager. If the WAS v8.0 installation is on a 32-bit operating system, this feature choice between IBM 32-bit SDK Java 6.0 or IBM 64-bit SDK Java 6.0 is not available and the installation will automatically default to the IBM 32-bit SDK Java 6.0.\n\nThe shipped WebSphere Portal Server v6.x/7.x servers are 32",
+    "token_count": 242,
+    "word_count": 123,
+    "start_char": 5574,
+    "end_char": 6438
+  },
+  {
+    "chunk_id": "swg21263677_chunk_009",
+    "source_file": "swg21263677.txt",
+    "text": ".0 is not available and the installation will automatically default to the IBM 32-bit SDK Java 6.0.\n\nThe shipped WebSphere Portal Server v6.x/7.x servers are 32 bit or 64 bit editions. depending on whether you chose the IBM WebSphere Application Server Network Deployment, 32-bit or 64-bit server to install on.\n\nNote: It is possible to work with any 64 bit remotely accessible or local stand-alone WebSphere Application Server v6.x/7.x/8.x. In Rational Application Developer 8.0.3+ be aware of the Info Center topic: Creating profiles for WebSphere Application Server on a 64-bit machine [Creating%20profiles%20for%20WebSphere%20Application%20Server%20on%20a%2064-bit%20machine] and see this APAR opened against RAD 8.5.1/8.5.5 : PI06339: A 64-bit install of the WebSphere Application Server Profile Management Tool may not launch on Windows 7. RELATED INFORMATION\n Benefits for RSA v8.0.3 products running as",
+    "token_count": 242,
+    "word_count": 128,
+    "start_char": 6278,
+    "end_char": 7188
+  },
+  {
+    "chunk_id": "swg21263677_chunk_010",
+    "source_file": "swg21263677.txt",
+    "text": "06339: A 64-bit install of the WebSphere Application Server Profile Management Tool may not launch on Windows 7. RELATED INFORMATION\n Benefits for RSA v8.0.3 products running as 64-bit app [http://www.ibm.com/support/docview.wss?uid=swg27021665]\nInternet Explorer v9+ required if using 64-bit Bit Mode [http://www.ibm.com/support/docview.wss?uid=swg21502701]\nRAD 8.0.3+ IC: Creating profiles for WAS on a 64-bit ma [http://publib.boulder.ibm.com/infocenter/radhelp/v8/index.jsp?topic=/com.ibm.servertools.doc/topics/rbitmachine.html]\nRational ClearCase SCM adapter not available for 64-bit [http://www.ibm.com/support/docview.wss?uid=swg21502974]\nCannot install the Java Visual Editor in RAD",
+    "token_count": 241,
+    "word_count": 69,
+    "start_char": 7011,
+    "end_char": 7702
+  },
+  {
+    "chunk_id": "swg21263677_chunk_011",
+    "source_file": "swg21263677.txt",
+    "text": "bit [http://www.ibm.com/support/docview.wss?uid=swg21502974]\nCannot install the Java Visual Editor in RAD 64 bit [http://www.ibm.com/support/docview.wss?uid=swg21499219]\nRAD64bit Known problems to install or run [http://www.ibm.com/support/docview.wss?uid=swg21499482]\nWAS V8.0 & V8.5 64-bit Install offer Program Files (x86 [https://developer.ibm.com/answers/questions/175210/why-does-was-v80-and-v85-offer-program-files-x86-a.html]\nAbout SCM Adapter support on 64 Bit [http://www.ibm.com/support/docview.wss?uid=swg21460547]\nConversion of 32 bit to 64 bit WAS on the same machine [http://www.ibm.com/support/doc",
+    "token_count": 242,
+    "word_count": 53,
+    "start_char": 7597,
+    "end_char": 8210
+  },
+  {
+    "chunk_id": "swg21263677_chunk_012",
+    "source_file": "swg21263677.txt",
+    "text": "wss?uid=swg21460547]\nConversion of 32 bit to 64 bit WAS on the same machine [http://www.ibm.com/support/docview.wss?uid=swg21625930]\nRAD901: Installing RAD for WebSphere Software [http://www-01.ibm.com/support/knowledgecenter/SSRTLW_9.0.1/com.ibm.rad.install.doc/topics/t_install_product.html]\nRAD 9.0.x: new features and enhancements-9.0.1-new_OSup [http://www-01.ibm.com/support/docview.wss?uid=swg27038836#whatsnew_901_OSupdates]\nRAD 9.0.1 System Requirements - O/S [http://www-969.ibm.com/software/reports/compatibility/clarity-reports/report/html/osForProduct?deliverableId=137467",
+    "token_count": 242,
+    "word_count": 35,
+    "start_char": 8103,
+    "end_char": 8688
+  },
+  {
+    "chunk_id": "swg21263677_chunk_013",
+    "source_file": "swg21263677.txt",
+    "text": "http://www-969.ibm.com/software/reports/compatibility/clarity-reports/report/html/osForProduct?deliverableId=1374678040873#osFamily-1]\nRSA(4WS) 9.0.x: new features and enhancements [http://www.ibm.com/support/docview.wss?uid=swg27038488]\nRSA 9.1.2: new features and enhancements - jdk [http://www-01.ibm.com/support/docview.wss?uid=swg27041555#whatsnew_912_JTE]\nA simplified Chinese translation is available [http://www.ibm.com/support/docview.wss?uid=swg21504145]\n\nCross reference information Segment Product Component Platform Version Edition Software Development Rational Software Architect Documentation Linux, Windows 7.0, 7.0.0.1, 7.0.0.2, 7.0.0.3,",
+    "token_count": 242,
+    "word_count": 45,
+    "start_char": 8573,
+    "end_char": 9227
+  },
+  {
+    "chunk_id": "swg21263677_chunk_014",
+    "source_file": "swg21263677.txt",
+    "text": "Platform Version Edition Software Development Rational Software Architect Documentation Linux, Windows 7.0, 7.0.0.1, 7.0.0.2, 7.0.0.3, 7.0.0.4, 7.0.0.5, 7.0.0.6, 7.0.0.7, 7.0.0.8 Software Development Rational Software Modeler Documentation Windows, Linux 7.0, 7.0.0.1, 7.0.0.2, 7.0.0.3, 7.0.0.4 Software Development Rational Systems Developer Documentation Linux, Solaris, Windows 7.0, 7.0.0.1, 7.0.0.2, 7.0.0.3, 7.0.0.4 Software Development Rational Software Architect for WebSphere Software General Information Linux, Windows 7.5, 7.5.1, 7.5.2",
+    "token_count": 202,
+    "word_count": 62,
+    "start_char": 9093,
+    "end_char": 9638
+  },
+  {
+    "chunk_id": "swg21515420_chunk_001",
+    "source_file": "swg21515420.txt",
+    "text": "Title: IBM Starting WebSphere Application Server gives warning message - Could not lock User prefs - United States\n\nWebsphere; startup; FileSystemPreferences; user prefs; prefs; Could not lock User prefs TECHNOTE (TROUBLESHOOTING)\n\nPROBLEM(ABSTRACT)\n Warning message issued during the non-root or root startup of WebSphere stating that it can not lock the user or system preferences.\n\nSYMPTOM\nThe following message can be seen in the systemout.log:\n\n[9/11/11 18:03:19:921 EDT] 00000001 prefs W java.util.prefs.FileSystemPreferences syncWorld Couldn't flush user prefs: java.util.prefs.BackingStoreException: Couldn't get file lock.\n[9/11/11 18:03:49:929 EDT] 00000001 prefs W java.util.prefs.FileSystemPreferences checkLockFile0ErrorCode Could not lock User prefs. Unix error code 2.\n\nCAUSE\nThe non-root ID that is being used to start WebSphere",
+    "token_count": 242,
+    "word_count": 109,
+    "start_char": 0,
+    "end_char": 844
+  },
+  {
+    "chunk_id": "swg21515420_chunk_002",
+    "source_file": "swg21515420.txt",
+    "text": "FileSystemPreferences checkLockFile0ErrorCode Could not lock User prefs. Unix error code 2.\n\nCAUSE\nThe non-root ID that is being used to start WebSphere Application Server does not have a user_home directory. Therefore this non-root ID is unable to access the root user's \"/etc/.java/.systemPrefs\". This produces the aforementioned warning messages every 30 seconds in the profile_root/logs/server_name/systemout.log.\n\nThe root ID used to start Websphere Application Server can not find the Java system pref file.\n\nDIAGNOSING THE PROBLEM\nFor non-root, you can confirm this issue by trying to start WebSphere using the \"root\" ID. Review the Websphere_Home/profiles/<profile_name>/logs/<failing server_name/systemout.log to verify that you no longer see the warning messages.\n\nFor root, verify if the /etc/.java/.systemPrefs exists\n\nRESOLVING THE PROBLEM\nFor non-root :\n\nCreate a User_Home directory for this non-root user and restart WebSphere Application Server. If this does not resolve",
+    "token_count": 242,
+    "word_count": 135,
+    "start_char": 692,
+    "end_char": 1679
+  },
+  {
+    "chunk_id": "swg21515420_chunk_003",
+    "source_file": "swg21515420.txt",
+    "text": ".java/.systemPrefs exists\n\nRESOLVING THE PROBLEM\nFor non-root :\n\nCreate a User_Home directory for this non-root user and restart WebSphere Application Server. If this does not resolve the issue use the following 2 suggestions below :\n\nNOTE : The \"dot\" in front of the directories below represent that these are \"hidden\" directories. So the \"dot\" must be in front of the directory name to go into the directory or to access them.\n\n1. Try giving 755 permission for /home/wasadmin/.java/.userPrefs\n\n2. Add \"-Djava.util.prefs.userRoot=/home/wasadmin/preps\" as a SDK generic jvm argument\n\nTo set the argument on the SDK:\n\n 1. In the administrative console, click Servers > Server Types > WebSphere application servers , and select the server that you want to add the generic argument to..\n 2. Then, in the Server Infrastructure section, click Java and process management > Process definition > Java virtual machine.\n 3. Specify -Djava.util.prefs.userRoot=/home/was",
+    "token_count": 242,
+    "word_count": 144,
+    "start_char": 1496,
+    "end_char": 2455
+  },
+  {
+    "chunk_id": "swg21515420_chunk_004",
+    "source_file": "swg21515420.txt",
+    "text": "in the Server Infrastructure section, click Java and process management > Process definition > Java virtual machine.\n 3. Specify -Djava.util.prefs.userRoot=/home/wasadmin/preps for the Generic JVM Arguments property, and click OK .\n 4. Click Save to save your changes.\n 5. Restart the application server.\n\nFor root :  1. Create a Java system pref directory\n    sudo mkdir -p /etc/.java/.systemPrefs\n 2. Restart the application server.",
+    "token_count": 112,
+    "word_count": 61,
+    "start_char": 2290,
+    "end_char": 2724
+  },
+  {
+    "chunk_id": "swg21648497_chunk_001",
+    "source_file": "swg21648497.txt",
+    "text": "Title: IBM Insufficient ulimit Value Causes Native OutOfMemory - United States\n\n TECHNOTE (TROUBLESHOOTING)\n\nPROBLEM(ABSTRACT)\n An out of memory may be observed on a system running WebSphere Application Server on Linux or AIX that is due to ulimit restrictions on number of process/threads per user. Further investigation may reveal a \"Failed to create a thread:\" message within the generated javacore which would indicate a native out of memory issue has been encountered. The cause of the problem may be an insufficient ulimit setting. While this type of issue can occur on any level of Linux, or AIX, the issue is most likely to be seen in systems running multiple instances of WebSphere Application Server using one userid. The following will outline how to identify if a process ulimit is the culprit and what WebSphere Application Server Support recommends to fix the case.\n\nSYMPTOM\nAn out of memory Dump Event such as:\n\n\"systhrow\" (00040000) Detail \"java/lang/OutOfMemoryError\"\n\"Failed to create a thread: retVal -1073741830, errno 11\" received",
+    "token_count": 242,
+    "word_count": 164,
+    "start_char": 0,
+    "end_char": 1051
+  },
+  {
+    "chunk_id": "swg21648497_chunk_002",
+    "source_file": "swg21648497.txt",
+    "text": "00040000) Detail \"java/lang/OutOfMemoryError\"\n\"Failed to create a thread: retVal -1073741830, errno 11\" received\n\nNote: This detailed message will appear only in javacores.\n\nDIAGNOSING THE PROBLEM\nWhen using WebSphere Application Server, ulimits can be set to fix or tune around a number of problems. For more on how to set a ulimit refer to the \"Guidelines for setting ulimits [http://www-01.ibm.com/support/docview.wss?uid=swg21469413]\" Technote which goes into detail on setting different ulimits on various operating systems and the difference between the soft and hard limit. This article is concerned particularly with the \"-u\" ulimit or \"nproc\" limit on Linux, the ulimit - r on AIX which affects the number of threads allowed for a single user process running WebSphere Application Server.\n\nThe AIX issue is less commonly seen as it limits then number of threads for a process but is seen in application servers with very large thread pools, This is",
+    "token_count": 242,
+    "word_count": 147,
+    "start_char": 939,
+    "end_char": 1896
+  },
+  {
+    "chunk_id": "swg21648497_chunk_003",
+    "source_file": "swg21648497.txt",
+    "text": "single user process running WebSphere Application Server.\n\nThe AIX issue is less commonly seen as it limits then number of threads for a process but is seen in application servers with very large thread pools, This is becoming more common in 64bit addressing JVMs running complex applications. WebSphere Application support recommends setting the ulimit -r ulimited on AIX.\n\nThe nproc limit usually only counts processes on a server towards determining this number. Linux systems running WebSphere Application Server are a particular case. The nproc limit on Linux counts the number of threads within all processes that can exist for a given user. To determine the ulimit settings of a WebSphere Application Server process running on Linux refer to \"How to determine the ulimit settings of a running WebSphere Application Server process on Linux [http://www-01.ibm.com/support/docview.wss?uid=swg21407889]\".\n\nUser Limits (in bytes except for NOFILE and NPROC)\n\ntype soft limit hard limit RLIMIT_AS unlimited unlimited RLIMIT_CORE unlimited unlimited RLIMIT_CPU unlimited unlimited RLIMIT_DATA",
+    "token_count": 242,
+    "word_count": 158,
+    "start_char": 1679,
+    "end_char": 2771
+  },
+  {
+    "chunk_id": "swg21648497_chunk_004",
+    "source_file": "swg21648497.txt",
+    "text": "except for NOFILE and NPROC)\n\ntype soft limit hard limit RLIMIT_AS unlimited unlimited RLIMIT_CORE unlimited unlimited RLIMIT_CPU unlimited unlimited RLIMIT_DATA unlimited unlimited RLIMIT_FSIZE unlimited unlimited RLIMIT_LOCKS unlimited unlimited RLIMIT_MEMLOCK 65536 65536 RLIMIT_NOFILE 65536 65536 RLIMIT_NPROC 131072 131072\n\nFor most cases of older versions of Linux this value will be defaulted to around 2048. For out of the box Red Hat Enterprise Linux (RHEL) 6 the default value for nproc will be set to 1024. This low default setting for larger systems will not allow for enough threads in all processes.\n\nWebSphere Application Server Support recommends setting the ulimit -u or nproc to a value of 131072 when running on Linux to safely account for all the forked threads within processes that could be created.\n\nBy using this recommended value a sufficient number of threads in all processes will be allowed and will not be a limiting factor for the environment. Increasing the limit to the suggested value should have",
+    "token_count": 242,
+    "word_count": 159,
+    "start_char": 2610,
+    "end_char": 3639
+  },
+  {
+    "chunk_id": "swg21648497_chunk_005",
+    "source_file": "swg21648497.txt",
+    "text": "could be created.\n\nBy using this recommended value a sufficient number of threads in all processes will be allowed and will not be a limiting factor for the environment. Increasing the limit to the suggested value should have no negative impact. When the number of threads in all processes reaches the -u ulimit, an out of memory error message will be thrown. This issue can be avoided by increasing this limit. Be aware that if the number of threads/processes reaches the recommended number of 131072 or close, the issue may be deeper and continuing to increase the -u ulimit will only prove to be a temporary fix.\n\nOnce the ulimit is increased, the WebSphere Application Server will need to be restarted to use the\nnew setting. In the case of WebSphere Application Server ND, the nodeagent and the servers on the nodes will need to be restarted.",
+    "token_count": 179,
+    "word_count": 147,
+    "start_char": 3414,
+    "end_char": 4261
+  },
+  {
+    "chunk_id": "swg21675316_chunk_001",
+    "source_file": "swg21675316.txt",
+    "text": "Title: IBM Exit() action within User Defined Function in Impact Policy Language - United States\n\nnetcool; impact; netcool/impact; nci; ipl; policy; language; exit; exit(); function; user; defined; custom; udf; parser; action; set; global; variable; var; get; setglobalvar; getglobalvar; globalvar TECHNOTE (FAQ)\n\nQUESTION\n and how to exit the Policy process from within a Custom Function\n\nCAUSE\nUsing the Exit() parser function within a User Defined (or Custom) Function in Impact Policy Language (IPL) will not exit the Policy process, it will only exit the User Defined Function.\n\nANSWER\nThis is because the Exit() parser function in IPL is designed to exit the immediate scope. To carry the action outside of the User Defined Function to the Policy level one would have to set a variable that is then tested immediately after the User Defined Function call - for example:\n\n * SetGlobalVar(\"ExitNow\", 1);\n * Exit();\n * SetGlobalVar(\"ExitNow\", 1);",
+    "token_count": 242,
+    "word_count": 146,
+    "start_char": 0,
+    "end_char": 948
+  },
+  {
+    "chunk_id": "swg21675316_chunk_002",
+    "source_file": "swg21675316.txt",
+    "text": "call - for example:\n\n * SetGlobalVar(\"ExitNow\", 1);\n * Exit();\n * SetGlobalVar(\"ExitNow\", 1);\n * Exit();\n * If(GetGlobalVar(\"ExitNow\") == 1)\n * {\n   Log(ID+WP+\": Existing policy...\");\n\n * Exit\n * ();\n   }\n\nThe above example ties in somewhat with the exampled configuration from the TechNote \"Event Flagging with Go_NoGo checking\" [ link below] and uses structured logging as covered in the TechNote \"Structured logging in Policies\" [ link below].\n\nIf the User Defined Function was nested within another User Defined Function one would have to exit each layer to return the Policy layer before the Exit() action would exit the Policy.\nRELATED INFORMATION\n Event Flagging with Go_NoGo checking [http://www-01.ibm.com/support/docview.wss?uid=swg21675015]\nStructured Logging in Policies [http://www-01.ibm.com/support/docview",
+    "token_count": 242,
+    "word_count": 110,
+    "start_char": 855,
+    "end_char": 1676
+  },
+  {
+    "chunk_id": "swg21675316_chunk_003",
+    "source_file": "swg21675316.txt",
+    "text": "support/docview.wss?uid=swg21675015]\nStructured Logging in Policies [http://www-01.ibm.com/support/docview.wss?uid=swg21596180]",
+    "token_count": 57,
+    "word_count": 6,
+    "start_char": 1570,
+    "end_char": 1697
+  },
+  {
+    "chunk_id": "swg21966637_chunk_001",
+    "source_file": "swg21966637.txt",
+    "text": "Title: IBM Getting a warning message 'You do not have the correct administrator privileges' when attempting to license a SPSS Statistics product on Mac OS. - United States\n\n TECHNOTE (TROUBLESHOOTING)\n\nPROBLEM(ABSTRACT)\n You have successfully installed an IBM SPSS Statistics product on a Mac computer. When you start the License Authorization Wizard (LAW) to enter the authorization code for licensing.\n\nYou receive the following message:\n\n\"Warning! You do not have the correct administrator privileges to license this product. Log in as administrator and try again, or contact your network administrator to correct this issue.\n\n\"\n\nOnce this message is displayed the only option available is \"OK\" to click on and you cannot enter your authorization code.\n\nRESOLVING THE PROBLEM\nBelow is a picture of the warning:\n\n[/support/docview.wss?uid=swg21966637&aid=1] [/support/docview.wss?uid=swg21966637&aid=1]\n\nIf you encounter this message, perform the following procedure:\n\n 1.  If open, close the IBM SPSS Statistics product.\n 2.  If open, close the License Authorization Wizard.\n 3.",
+    "token_count": 242,
+    "word_count": 154,
+    "start_char": 0,
+    "end_char": 1081
+  },
+  {
+    "chunk_id": "swg21966637_chunk_002",
+    "source_file": "swg21966637.txt",
+    "text": "=1]\n\nIf you encounter this message, perform the following procedure:\n\n 1.  If open, close the IBM SPSS Statistics product.\n 2.  If open, close the License Authorization Wizard.\n 3.  Open Finder.\n 4.  Select the 'Go' menu.\n 5.  Select the 'Utilities' menu.\n 6.  Open the 'Terminal' program.\n 7.  Type (copy/paste) the following command:\n\n     cd /Applications/IBM/SPSS/Statistics/\n 8.\n 9.  Press Enter/Return.\n 10. Perform the procedure corresponding to the Statistics product version as described below:\n\nStatistics Release 20  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 20\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n\nStatistics Release 21  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 21\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.",
+    "token_count": 242,
+    "word_count": 145,
+    "start_char": 901,
+    "end_char": 1930
+  },
+  {
+    "chunk_id": "swg21966637_chunk_003",
+    "source_file": "swg21966637.txt",
+    "text": "o chown -R root:admin 21\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n\nStatistics Release 22  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 22\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n\nStatistics Release 23  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 23\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n\nStatistics Release 24  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 24\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6.",
+    "token_count": 242,
+    "word_count": 149,
+    "start_char": 1767,
+    "end_char": 2792
+  },
+  {
+    "chunk_id": "swg21966637_chunk_004",
+    "source_file": "swg21966637.txt",
+    "text": "n -R root:admin 24\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n 7.\n 8.\n\nStatistics Release 25  1. Type (copy/paste) the following command:\n\n    sudo chown -R root:admin 25\n\n 2. Press Enter/Return.\n 3. Close Terminal.\n 4. Launch the License Authorization Wizard.\n 5. The warning message should no longer appear.\n 6. License your IBM SPSS Statistics product.\n\nTo confirm the changes have been made (1) In the Terminal window change directory to below path (example for release 22)\n\ncd /Applications/IBM/SPSS/Statistics/22/SPSSStatistics.app/Contents\n\nthen, type the following:\n\nls -l\n\n(2) Press Enter/Return.\n\nIf you see some or all of subfolders shows a group ownership other than 'admin' (as displayed in Picture1), the procedure did not succeed. You will need to have your Mac IT support contact IBM SPSS Support for further assistance.\n\nPicture1:\n[/",
+    "token_count": 242,
+    "word_count": 148,
+    "start_char": 2631,
+    "end_char": 3623
+  },
+  {
+    "chunk_id": "swg21966637_chunk_005",
+    "source_file": "swg21966637.txt",
+    "text": "admin' (as displayed in Picture1), the procedure did not succeed. You will need to have your Mac IT support contact IBM SPSS Support for further assistance.\n\nPicture1:\n[/support/docview.wss?uid=swg21966637&aid=2] [/support/docview.wss?uid=swg21966637&aid=2]\n\nPicture 2:\n\nIf you see some or all of subfolders shows a group ownership of 'admin' (as displayed in Picture2), the procedure was successful.\n[/support/docview.wss?uid=swg21966637&aid=3] [/support/docview.wss?uid=swg21966637&aid=3]\n\nThis behavior is also reported on the following product correction report (APAR): [https://www-304.ibm.com/support/entdocview.wss?uid=swg1PI41134]\n[https://www-304.ibm.com/support/en",
+    "token_count": 242,
+    "word_count": 69,
+    "start_char": 3453,
+    "end_char": 4127
+  },
+  {
+    "chunk_id": "swg21966637_chunk_006",
+    "source_file": "swg21966637.txt",
+    "text": "com/support/entdocview.wss?uid=swg1PI41134]\n[https://www-304.ibm.com/support/entdocview.wss?uid=swg1PI41134]\nhttps://www.ibm.com/support/entdocview.wss?uid=swg1PI41134 [https://www-304.ibm.com/support/entdocview.wss?uid=swg1PI41134]\n\nAn IBM ID is required to access this material.\n\nIf needed, an IBM ID may be created at https://ibm.biz/ibm_web_id [https://ibm.biz/ibm_web_id]\n\nRELATED INFORMATION\n Need more help? Our Statistics forum is Live! [https://developer.ibm.com/answers/topics/statistics.html?smartspace=predictive-analytics]\nNeed more help? Our Licensing forum is Live! [https://developer.ibm.com/answers/topics/sp",
+    "token_count": 242,
+    "word_count": 44,
+    "start_char": 4048,
+    "end_char": 4673
+  },
+  {
+    "chunk_id": "swg21966637_chunk_007",
+    "source_file": "swg21966637.txt",
+    "text": "topics/statistics.html?smartspace=predictive-analytics]\nNeed more help? Our Licensing forum is Live! [https://developer.ibm.com/answers/topics/spsslicensing.html]",
+    "token_count": 49,
+    "word_count": 10,
+    "start_char": 4528,
+    "end_char": 4690
+  },
+  {
+    "chunk_id": "swg21983839_chunk_001",
+    "source_file": "swg21983839.txt",
+    "text": "Title: IBM Problems installing NMA agent  (N4 agent) on Linux x86-64 - United States\n\nITM Virtual environments install NMA N4 unable find bundle prerequisites CI addbundles TECHNOTE (TROUBLESHOOTING)\n\nPROBLEM(ABSTRACT)\n The installation of NMA agent from package ITM for Virtual Environment V7.2.0.3 is failing with both remote or local installation on Linux x86-64.\n\nSYMPTOM\n1) The import of the whole bundle using command:\n\n/opt/IBM/ITM/bin/tacmd addbundles -i <inst_media>/ITMfVE_Agents/unix\n\nwill fail with message:\n\nUnable to find bundle prerequisite: ci 06.22.04.000 li6263\n\n--\n\n2) Even if you succeed in importing the bundle, the remote deploy of N4 agent on a Linux X86_64 fails because the installer recognizes the target node as a 64bit while the agent comes with a different architecture (li6263).\n\n--\n\n3) If you try to install the ITM for VE agents locally on a Linux x86_64",
+    "token_count": 242,
+    "word_count": 135,
+    "start_char": 0,
+    "end_char": 886
+  },
+  {
+    "chunk_id": "swg21983839_chunk_002",
+    "source_file": "swg21983839.txt",
+    "text": "64bit while the agent comes with a different architecture (li6263).\n\n--\n\n3) If you try to install the ITM for VE agents locally on a Linux x86_64, the usual installation procedure does not work for the same reason of point 2.\nThe installer recognizes the target node as a 64bit platform and the agents are 32bit and so it does not show the expected list of agents.\n\nCAUSE\nThe causes for the three scenarios depends on wrong prerequisite levels packaged into ITM for VE 7.2.0.3 for NMA agent, and on unexpected architecture recognized by the installer when trying to install the agent on the target node, if this one is a Linux x86-64.\n\nRESOLVING THE PROBLEM\nThe issues should be corrected at Installer level, APAR IV84919 has been opened to fix them.\n\nAnyway, since the correction involves the installation component, it will not be available until next release, when the Installation package will be built again.\n\nUntil then, you can bypass the issue with some manual steps.\n\n---------------\n\n1) If the import of agent bundle using",
+    "token_count": 242,
+    "word_count": 176,
+    "start_char": 741,
+    "end_char": 1773
+  },
+  {
+    "chunk_id": "swg21983839_chunk_003",
+    "source_file": "swg21983839.txt",
+    "text": "built again.\n\nUntil then, you can bypass the issue with some manual steps.\n\n---------------\n\n1) If the import of agent bundle using command tacmd addbundles fails with message:\n\nUnable to find bundle prerequisite: ci 06.22.04.000 li6263\n\nthis occurs because some agents, particularly N4 agent, have old prerequisites for shared components (ax, ui, gs,jr) that are not part of the ITM_for_VE bundle.\n\nThere is actually a workaround to correctly import the bundle in the depot, but it will not be of any help because remote installation of N4 agent will then fail due to the problem described in item number 2.\n\nIt can be anyway useful to know the workaround as it can be applied to other agents for which remote installation instead correctly works.\n\nYou must verify if the prerequisites mentioned in the error message are already present in your depot by using command tacmd viewdepot.\nBeside of the one mentioned in the error message, you must be sure that also the other wanted prerequisites are already present in",
+    "token_count": 242,
+    "word_count": 169,
+    "start_char": 1642,
+    "end_char": 2658
+  },
+  {
+    "chunk_id": "swg21983839_chunk_004",
+    "source_file": "swg21983839.txt",
+    "text": "in your depot by using command tacmd viewdepot.\nBeside of the one mentioned in the error message, you must be sure that also the other wanted prerequisites are already present in the depot.\n\nN4 agent has the following prerequisites:\n\nProduct Code : n4\nDeployable : True\nVersion : 062200000\nDescription : Monitoring Agent for Network Devices\nHost Type : li6263\nHost Version : li6263,lx8266\nPrerequisites: ci:062204000 la:ipaddr05400 gs:074027000 jr:051201000\nui:062204000 ax:062204000\n\nIf all of them are already in the depot, then you can run the tamcd addbundles using flag \"-n\" (ignore prerequisites), this will allow to correctly import the agent bundle.\n\nIf you do not have the wanted prerequisite levels, you have two possible options:\n\na) retrieve and add them into depot from other ITM installation packages\nb) modify the agent dsc files and change the level of the components required by the agent to",
+    "token_count": 242,
+    "word_count": 145,
+    "start_char": 2480,
+    "end_char": 3388
+  },
+  {
+    "chunk_id": "swg21983839_chunk_005",
+    "source_file": "swg21983839.txt",
+    "text": "you have two possible options:\n\na) retrieve and add them into depot from other ITM installation packages\nb) modify the agent dsc files and change the level of the components required by the agent to match the level delivered with the bundle.\n\nFor example, ITM for Virtual Environment 7.2.0.3 delivers CI component at level 06.30.05.000, so if we consider N4 agent, you may need to change the file n4li6263.dsc in the rows:\n\n<PrereqProdCode>ci</PrereqProdCode>\n\n<PrereqVersion>\n\n<Version>06</Version>\n\n<Release>22</Release>\n\n<Mod>04</Mod>\n\n<Level>000</Level>\n\nto\n\n<PrereqProdCode>ci</PrereqProdCode>\n\n<PrereqVersion>\n\n<Version>06</Version>\n\n<Release>30</Release>\n\n<Mod>05</Mod>\n\n<Level>000</Level>\n\nThe same for other components in case they are also missing from your depot.\n\nThe dsc files are into <installation",
+    "token_count": 242,
+    "word_count": 105,
+    "start_char": 3190,
+    "end_char": 4002
+  },
+  {
+    "chunk_id": "swg21983839_chunk_006",
+    "source_file": "swg21983839.txt",
+    "text": ">\n\n<Mod>05</Mod>\n\n<Level>000</Level>\n\nThe same for other components in case they are also missing from your depot.\n\nThe dsc files are into <installation_media>/ITMfVE_Agents/unix folder.\n\nRepeat the tacmd addbundles command and it should now work fine.\n\nAs previously said, please consider that this scenario may occur also for agents different than N4, and the workaround is applicable also for them.\n\nOf course the target dsc file name changes accordingly to the agent type and related architecture.\n\n2) The above workaround can help in case the issue is only related to backleveled prerequisite packages.\n\nAnyway, once you applied it, if the target node for the N4 agent is a Linux x86-64, you will anyway not be able to install it remotely.\nThe remote deploy of N4 agent on a Linux X86_64 fails because the installer recognizes the target node as a 64bit while the agent comes with a different architecture (li6263).\nThe quickest workaround in this case is to install the agent locally.\n\n3) If you try to",
+    "token_count": 242,
+    "word_count": 166,
+    "start_char": 3850,
+    "end_char": 4858
+  },
+  {
+    "chunk_id": "swg21983839_chunk_007",
+    "source_file": "swg21983839.txt",
+    "text": "as a 64bit while the agent comes with a different architecture (li6263).\nThe quickest workaround in this case is to install the agent locally.\n\n3) If you try to install the ITM for VE agents locally on a Linux x86_64, the usual installation procedure does not work for the same reason of point 2.\nThe installer recognizes the target node as a 64bit platform and the agents are 32bit.\nSo the installer menu will show no available agents to be installed.\n\nYou need to proceed as follow:\n\na) Run the local installation of N4 agent on target machine and proceed as usual when you are prompted with Installer initial questions.\nb) Select Other operating systems when you are showed this panel\n\n[/support/docview.wss?uid=swg21983839&aid=1] [/support/docview.wss?uid=swg21983839&aid=1]\n\nc) Then select Linux Intel R2.6 R3.0 (32 bit)\n\n[/support/docview.wss?uid=swg21983839&aid",
+    "token_count": 242,
+    "word_count": 133,
+    "start_char": 4698,
+    "end_char": 5566
+  },
+  {
+    "chunk_id": "swg21983839_chunk_008",
+    "source_file": "swg21983839.txt",
+    "text": "c) Then select Linux Intel R2.6 R3.0 (32 bit)\n\n[/support/docview.wss?uid=swg21983839&aid=2] [/support/docview.wss?uid=swg21983839&aid=2]\n\nd) At this point you will see the list of agents that can be installed on the machine. Select the option for the n4 agent and installation will be completed successfully\n\n[/support/docview.wss?uid=swg21983839&aid=3] [/support/docview.wss?uid=swg21983839&aid=3]\n\nPRODUCT ALIAS/SYNONYM\n IBM Tivoli Monitoring for Virtual Environments V7.2.0.3",
+    "token_count": 174,
+    "word_count": 53,
+    "start_char": 5478,
+    "end_char": 5956
+  },
+  {
+    "chunk_id": "swg22008493_chunk_001",
+    "source_file": "swg22008493.txt",
+    "text": "Title: IBM Security Bulletin: IBM Tivoli Network Manager IP Edition is affected by an Apache CXF vulnerability (CVE-2017-3156) - United States\n\n SECURITY BULLETIN\n\nSUMMARY\n Vulnerability has been addressed in the Apache CXF component of Tivoli Network Manager IP Edition.\n\nVULNERABILITY DETAILS\nCVEID: CVE-2017-3156 [http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-3156]\nDESCRIPTION: Apache CXF could provide weaker than expected security, caused by the failure to use the OAuth2 Hawk and JOSE MAC Validation code. A remote attacker could exploit this vulnerability using timing attacks to obtain sensitive information.\nCVSS Base Score: 5.9\nCVSS Temporal Score: See https://exchange.xforce.ibmcloud.com/vulnerabilities/130249 [https://exchange.xforce.ibmcloud.com/vulnerabilities/130249] for the current score\nCVSS Environmental Score*: Undefined\nCVSS Vector: (CVSS:3.0/AV:",
+    "token_count": 242,
+    "word_count": 102,
+    "start_char": 0,
+    "end_char": 880
+  },
+  {
+    "chunk_id": "swg22008493_chunk_002",
+    "source_file": "swg22008493.txt",
+    "text": "cloud.com/vulnerabilities/130249] for the current score\nCVSS Environmental Score*: Undefined\nCVSS Vector: (CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N)\n\nAFFECTED PRODUCTS AND VERSIONS\nTivoli Network Manager IP Edition 4.1.1 (Huawei MTOSI Collector install)\nTivoli Network Manager IP Edition 4.2.0 (Huawei MTOSI Collector install)\n\nREMEDIATION/FIXES\n\nProduct VRMF APAR Remediation/First Fix Tivoli Network Manager IP Edition 4.1.1 IV99816 Please call IBM service and reference APAR IV99816, to obtain a fix if needed for 4.1.1 release. Tivoli Network Manager IP Edition 4.2.0 IV99816 CXF 3.1.10 has been upgraded in 4.2 FixPack 3.\nhttp://www-01.ibm.com/support/docview.wss?uid=swg240",
+    "token_count": 241,
+    "word_count": 83,
+    "start_char": 761,
+    "end_char": 1444
+  },
+  {
+    "chunk_id": "swg22008493_chunk_003",
+    "source_file": "swg22008493.txt",
+    "text": ".10 has been upgraded in 4.2 FixPack 3.\nhttp://www-01.ibm.com/support/docview.wss?uid=swg24043575 [http://www-01.ibm.com/support/docview.wss?uid=swg24043575] WORKAROUNDS AND MITIGATIONS\nNone\n\nGET NOTIFIED ABOUT FUTURE SECURITY BULLETINS\n Subscribe to My Notifications [ http://www-01.ibm.com/software/support/einfo.html] to be notified of important product support alerts like this.\n\nREFERENCES\nComplete CVSS v3 Guide [http://www.first.org/cvss/user-guide]\nOn-line Calculator v3 [http://www.first.org/cvss/calculator/3.0]\n\nRELATED INFORMATION\nIBM Secure Engineering Web Portal [http://www.ibm.com/security/secure-engineering/bulletins.html]\nIBM Product Security Incident Response Blog [http://www.ibm.com/blogs/psirt]\n\nCHANGE HISTORY\n 15 September",
+    "token_count": 242,
+    "word_count": 65,
+    "start_char": 1352,
+    "end_char": 2099
+  },
+  {
+    "chunk_id": "swg22008493_chunk_004",
+    "source_file": "swg22008493.txt",
+    "text": ".com/security/secure-engineering/bulletins.html]\nIBM Product Security Incident Response Blog [http://www.ibm.com/blogs/psirt]\n\nCHANGE HISTORY\n 15 September 2017 : Original Version Published\n\n*The CVSS Environment Score is customer environment specific and will ultimately impact the Overall CVSS Score. Customers can evaluate the impact of this vulnerability in their environments by accessing the links in the Reference section of this Security Bulletin.\n\nDISCLAIMER\nAccording to the Forum of Incident Response and Security Teams (FIRST), the Common Vulnerability Scoring System (CVSS) is an \"industry open standard designed to convey vulnerability severity and help to determine urgency and priority of response.\" IBM PROVIDES THE CVSS SCORES \"AS IS\" WITHOUT WARRANTY OF ANY KIND, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. CUSTOMERS ARE RESPONSIBLE FOR ASSESSING THE IMPACT OF ANY ACTUAL OR POTENTIAL SECURITY VULNERABILITY.",
+    "token_count": 187,
+    "word_count": 131,
+    "start_char": 1944,
+    "end_char": 2918
+  }
+]
