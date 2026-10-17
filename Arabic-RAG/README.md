@@ -1,20 +1,32 @@
-# Arabic-RAG interface
+# Arabic Document Assistant
 
-A simple Arabic, right-to-left browser interface for the existing RAG pipeline.
-Ask a question, read the generated answer, and expand the three retrieved source
-passages to inspect the evidence and PDF page numbers.
+Ask questions in Arabic and receive answers grounded in the included Arabic document. The right-to-left interface shows the answer and three expandable source passages with PDF page numbers.
 
-From the `Internship II` folder in PowerShell:
+## Run
 
-```powershell
-.\.venv\Scripts\python.exe .\Arabic-RAG\code\app.py
+Install Python 3.11+ and [Ollama](https://ollama.com/download). From the repository root:
+
+```bash
+python run.py arabic
 ```
 
-Open http://127.0.0.1:8001. Use `--port 8002` to choose another port.
-Stop with Ctrl+C.
+On Windows, you can also double-click `start.bat` and choose **Arabic**.
 
-The application uses the existing FAISS index in `data/index`, the existing
-Sentence Transformers embedding model, and Ollama at `localhost:11434` with
-`llama3.2:3b`. Start Ollama and ensure that model is installed before asking a
-question. The embedding model must be cached or downloadable on first launch.
-No additional UI packages are needed. The server listens on localhost only.
+The launcher installs Python dependencies, starts Ollama if necessary, downloads `llama3.2:3b` if missing, and opens http://127.0.0.1:8001 after the app is ready. The first launch needs internet access for dependencies and models. Keep the launcher open; press Ctrl+C to stop.
+
+The included index is ready to use. Tesseract is needed only to repeat OCR, not to use the interface.
+
+## Command-line tools
+
+After launcher setup, use the virtual environment's Python:
+
+```bash
+# Git Bash on Windows:
+./.venv/Scripts/python.exe Arabic-RAG/code/retrieve.py
+./.venv/Scripts/python.exe Arabic-RAG/code/ask_question.py
+./.venv/Scripts/python.exe Arabic-RAG/code/evaluate.py
+```
+
+On macOS/Linux, replace `./.venv/Scripts/python.exe` with `./.venv/bin/python`.
+
+See the [main guide](../README.md) for setup and troubleshooting, and [REQUIREMENTS.md](../REQUIREMENTS.md) for OCR and index rebuild commands.

@@ -1,35 +1,33 @@
-# TechQA document search
+# English Document Search
 
-A simple local interface over the existing Sentence Transformers / FAISS index.
-Enter a question, see the top three **distinct documents**, and click a result
-to read its complete cleaned source text. Each document is ranked by its most
-similar chunk. Similarity is a ranking score, not a probability of correctness.
+Search the included TechQA documents in English. The browser interface returns the three highest-ranked distinct documents. Select a result to read its complete cleaned text. Similarity is a ranking score, not a probability of correctness.
 
-## Run on this computer
+## Run
 
-From the `Internship II` folder in PowerShell:
+Install Python 3.11 or newer. From the repository root:
 
-```powershell
-.\.venv\Scripts\python.exe .\techqa-rag\code\app.py
+```bash
+python run.py english
 ```
 
-Then open http://127.0.0.1:8000. Stop the server with Ctrl+C.
-Use `--port 8001` if port 8000 is occupied.
+On Windows, you can also double-click `start.bat` and choose **English**.
 
-The existing virtual environment already contains the required `faiss-cpu`,
-`numpy`, and `sentence-transformers` packages. No UI packages are required.
-The embedding model must be cached locally or downloadable on first launch.
-The server loads the model once and listens only on the local computer.
+The launcher installs Python dependencies and opens http://127.0.0.1:8000 after the app is ready. The first launch needs internet access to download dependencies and the embedding model. Keep the launcher open; press Ctrl+C to stop.
 
-## Project structure
+The included index is ready to use. The browser interface does not require Ollama.
 
-- `code/prepare_data.py`, `clean_documents.py`, `chunk_documents.py`: prepare source documents and passages.
-- `code/generate_embeddings.py`, `build_index.py`: create embeddings and the FAISS index.
-- `code/retrieve.py`: original chunk retrieval, reused by the interface.
-- `code/ask_question.py`: existing command-line answer generation through Ollama.
-- `code/app.py`: local HTTP server and distinct-document ranking.
-- `web/index.html`: question form, search results, and document viewer.
-- `data/cleaned/`: full documents displayed by the viewer.
-- `data/index/`: existing index and matching metadata.
+## Command-line tools
 
-The browser interface performs document retrieval; it does not require Ollama.
+After launcher setup, use the virtual environment's Python:
+
+```bash
+# Git Bash on Windows:
+./.venv/Scripts/python.exe techqa-rag/code/retrieve.py
+./.venv/Scripts/python.exe techqa-rag/code/ask_question.py
+```
+
+On macOS/Linux, replace `./.venv/Scripts/python.exe` with `./.venv/bin/python`.
+
+Command-line answer generation requires Ollama running with `llama3.2:3b`. Install [Ollama](https://ollama.com/download), open it, and run `ollama pull llama3.2:3b` first.
+
+See the [main guide](../README.md) for setup and troubleshooting, and [REQUIREMENTS.md](../REQUIREMENTS.md) for manual installation and index rebuild commands.

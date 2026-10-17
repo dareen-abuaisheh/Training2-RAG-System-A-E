@@ -1,4 +1,8 @@
-# Requirements and commands
+# Dependencies and advanced commands
+
+For normal use, run `python run.py` or double-click `start.bat` on Windows.
+The launcher handles the Python environment, dependencies, and Arabic model setup.
+The commands below are for manual setup and rebuilding project data.
 
 Run commands from the repository root in **Git Bash on Windows** unless a
 block is marked PowerShell. Python 3.11+ and Git must already be installed.

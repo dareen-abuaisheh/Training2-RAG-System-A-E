@@ -1,100 +1,66 @@
-# Training2 RAG System — Arabic & English
+# RAG Document Assistant
 
-Two local document question-answering projects built with Sentence Transformers,
-FAISS, and Ollama. Retrieval selects relevant passages; answer generation uses
-those passages as evidence and cites their source labels.
+Search documents and ask questions in Arabic and English using local AI models.
 
-| Project | Documents | Browser interface | Port |
-| --- | --- | --- | --- |
-| Arabic-RAG | Arabic PDF processed with OCR | Arabic questions, generated answers, expandable source passages and PDF page numbers | 8001 |
-| techqa-rag | English TechQA documents | Retrieves three distinct documents and displays their full cleaned text | 8000 |
+| Interface | Features | Address |
+| --- | --- | --- |
+| Arabic | Arabic questions, generated answers, source passages and PDF page numbers | http://127.0.0.1:8001 |
+| English | Search TechQA documents and read the full matching documents | http://127.0.0.1:8000 |
 
-Both projects also provide command-line retrieval and answer generation.
-The TechQA browser interface performs retrieval only; its command-line
-`ask_question.py` generates answers through Ollama.
+Both projects also support answer generation from the command line. The English browser interface provides document search only.
 
-## Install and run
+## Quick start
 
-Use Python 3.11 or newer. The commands below use **Git Bash on Windows** and
-must be run from the repository root. For all installation commands, optional
-OCR dependencies, and complete rebuild instructions, see [REQUIREMENTS.md](REQUIREMENTS.md).
+1. Install **Python 3.11 or newer** from [python.org](https://www.python.org/downloads/). On Windows, enable **Add Python to PATH** during installation.
+2. For Arabic answers, install [Ollama](https://ollama.com/download). The launcher starts it and downloads the answer model when needed. English document search works without Ollama.
+3. Download and extract this repository, or clone it with Git.
+4. On **Windows**, double-click **start.bat**, then choose Arabic, English, or both.
 
-```bash
-git clone https://github.com/dareen-abuaisheh/Training2-RAG-System-A-E.git
-cd Training2-RAG-System-A-E
-python -m venv .venv
-source .venv/Scripts/activate
-python -m pip install -r requirements.txt
-```
+The launcher creates a virtual environment, installs Python dependencies, prepares the Arabic answer model when needed, and opens the selected interfaces in your browser. No environment activation or index rebuilding is needed.
 
-Install [Ollama](https://ollama.com/download/windows), open it, and download
-the answer model:
+The first launch needs internet access and may take several minutes to download packages and models. Later launches reuse them. Keep the launcher window open while using the app. Press **Ctrl+C** to stop it.
+
+## Run from a terminal
+
+From the repository folder, in Git Bash, PowerShell, or a terminal:
 
 ```bash
-ollama pull llama3.2:3b
+python run.py
 ```
 
-The existing datasets, processed passages, embeddings, and FAISS indexes are
-included. You can launch the interfaces without rebuilding them. Embedding
-models download automatically on first use, so the first launch needs internet
-access and can take longer.
-
-In one terminal:
+Choose an interface directly:
 
 ```bash
-source .venv/Scripts/activate
-python Arabic-RAG/code/app.py
+python run.py arabic
+python run.py english
+python run.py both
 ```
 
-Open **http://127.0.0.1:8001**. Ask an Arabic question, read the answer, and
-expand the sources to inspect the supporting passages. Ollama must be running.
+On macOS/Linux, use `python3` if `python` is unavailable. Python must include the `venv` module; on Debian/Ubuntu install the matching `python3-venv` package if needed.
 
-In a second terminal, from the repository root:
+Use `--no-browser` to prevent automatic browser opening. The launcher prints the local addresses.
 
-```bash
-source .venv/Scripts/activate
-python techqa-rag/code/app.py
-```
+## Included data
 
-Open **http://127.0.0.1:8000**. Enter an English question and select a result
-to read its cleaned document. This interface does not require Ollama.
+Source documents, cleaned text, embeddings, FAISS indexes, and evaluation files are included. The interfaces are ready to use after dependencies download. Python packages and downloadable OCR models are excluded from Git.
 
-Stop either server with **Ctrl+C**. Choose another port with `--port 8002`.
-Both servers listen only on the local computer.
+## How it works
 
-## Command-line use
+Sentence Transformers embeds each question, and FAISS retrieves relevant passages. Arabic answers use Ollama with `llama3.2:3b` and cite the retrieved evidence. Expand the source passages to verify an answer.
 
-```bash
-python Arabic-RAG/code/retrieve.py
-python Arabic-RAG/code/ask_question.py
-python Arabic-RAG/code/evaluate.py
+Arabic uses `paraphrase-multilingual-MiniLM-L12-v2`; English uses `all-MiniLM-L6-v2`. The models run locally once downloaded. Both interfaces listen on localhost.
 
-python techqa-rag/code/retrieve.py
-python techqa-rag/code/ask_question.py
-```
+## More information
 
-## Project structure
-
-Each project has a `code/` folder for processing and retrieval, a `data/`
-folder for source and generated artifacts, and a `web/` folder for its interface.
-Arabic evaluation questions and results are in `Arabic-RAG/data/evaluation/`;
-TechQA evaluation questions are in `techqa-rag/evaluation/`.
-
-Arabic embeddings use `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`.
-English embeddings use `sentence-transformers/all-MiniLM-L6-v2`.
-Both answer-generation scripts use `llama3.2:3b` through Ollama at
-`http://localhost:11434`.
+- [Arabic interface](Arabic-RAG/README.md)
+- [English interface](techqa-rag/README.md)
+- [Dependencies, manual setup, OCR, and rebuilding indexes](REQUIREMENTS.md)
 
 ## Troubleshooting
 
-- **Cannot connect to Ollama:** open Ollama or run `ollama serve` in a separate
-  terminal if it is not already running. Check `ollama list` for `llama3.2:3b`.
-- **Missing or inconsistent index:** follow the rebuild commands in
-  [REQUIREMENTS.md](REQUIREMENTS.md), keeping each project's embeddings and index together.
-- **Port already in use:** start the relevant app with `--port 8002`.
-- **OCR executable missing:** the Arabic OCR script expects
-  `C:\Program Files\Tesseract-OCR\tesseract.exe`; adjust that script if your
-  installation uses a different location.
-
-Virtual environments, Python caches, and downloadable OCR models are excluded
-from Git. Installation and download commands recreate those dependencies.
+- **Python not found:** install Python and reopen the terminal, or try `py -3 run.py` on Windows.
+- **Ollama not found:** install Ollama and rerun the launcher. Choose English to search without it.
+- **Downloads fail:** check your internet connection and rerun the launcher. Completed installations are reused.
+- **Port in use:** stop the previous launcher or the app using port 8000/8001.
+- **Missing index:** follow the rebuild steps in REQUIREMENTS.md.
+- **Browser does not open:** visit the address printed by the launcher.
